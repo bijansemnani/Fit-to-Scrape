@@ -1,14 +1,45 @@
 $(document).ready(function () {
+  $("li.articles").on("click", function () {
+    $("#comments").empty();
+    var id = $(this).attr("data-id");
+    console.log(id);
 
-  $.getJSON("/articles", function(data) {
-    // For each one
-    for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      $("#articles").append("<p data-id='" +
-        data[i]._id + "'>" +
-        data[i].title + "<br />" +
-        data[i].link + "</p>");
-    }
+    $.get("/articles/"+id).then(function (data) {
+      console.log(data);
+      // The title of the article
+      $("#comments").append("<h2>" + data.title + "</h2>");
+      // An input to enter a new title
+      $("#comments").append("<input id='titleinput' name='title' >");
+      // A textarea to add a new note body
+      $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
+      // A button to submit a new note, with the id of the article saved to it
+      $("#comments").append("<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+      $("#comments").append("<button data-id='" + data.comments[0]._id + "' id='deletecomment'>Delete Comment</button>");
+
+      // If there's a note in the article
+      if (data.comments) {
+        // Place the title of the note in the title input
+        $("#titleinput").val(data.comments[0].title);
+        // Place the body of the note in the body textarea
+        $("#bodyinput").val(data.comments[0].body);
+      }
+    });
   });
 
+  $(document).on("click", "#savecomment", function () {
+    var thisId = $(this).attr("data-id");
+    var thisObj = {
+      title: $("#titleinput").val(),
+      body: $("#bodyinput").val()
+    };
+
+    $.post("/articles/" + thisId, thisObj)
+      .then(function (data) {
+      console.log(data);
+      $("#comments").empty();
+    });
+
+    $("#titleinput").val("");
+    $("#bodyinput").val("");
+  });
 });

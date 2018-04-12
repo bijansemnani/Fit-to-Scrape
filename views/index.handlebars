@@ -1,7 +1,16 @@
-<ul>
-  {{#each array}}
-    <li>
-      {{title}}
-    </li>
-  {{/each}}
-</ul>
+<div id="articles">
+  <ul>
+    {{#each array}}
+      <li class= "articles" data-id={{_id}}  data-saved={{saved}}>
+        {{title}}
+      </br>
+        {{link}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
+
+
+<div id="comments">
+
+</div>
