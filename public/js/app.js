@@ -1,5 +1,12 @@
 $(document).ready(function () {
 
+  $("#scrape").on("click", function (event) {
+    event.preventDefault();
+    $.get("/scrape").then(function () {
+      window.location.href = "/";
+    });
+  })
+
   $("button.comment").on("click", function () {
     $("#comments").empty();
     var id = $(this).attr("data-id");
