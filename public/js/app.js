@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  $("li.articles").on("click", function () {
+
+  $("button.comment").on("click", function () {
     $("#comments").empty();
     var id = $(this).attr("data-id");
     console.log(id);
@@ -23,6 +24,15 @@ $(document).ready(function () {
         // Place the body of the note in the body textarea
         $("#bodyinput").val(data.comments[0].body);
       }
+    });
+  });
+
+  $("button.save").on("click", function () {
+    var thisId = $(this).attr("data-id");
+    var thisSave = $(this).attr("data-saved");
+    $.post("/api/saved/"+ thisId,{saved: thisSave})
+      .then(function(data) {
+        console.log(data);
     });
   });
 
