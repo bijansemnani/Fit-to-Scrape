@@ -42,4 +42,19 @@ $(document).ready(function () {
     $("#titleinput").val("");
     $("#bodyinput").val("");
   });
+
+  $(document).on("click", "#deletecomment", function () {
+    var thisId = $(this).attr("data-id");
+    $("#comments").empty();
+    console.log(thisId);
+    $.ajax({
+      method: "DELETE",
+      url: "/articles/" + thisId
+    })
+    .then(function (data) {
+      console.log("deleted");
+      $("#notes").empty();
+    });
+  });
+
 });

@@ -68,4 +68,12 @@ module.exports = function(app) {
         res.json(err);
       });
   });
+
+  app.delete("/articles/:id", function (req, res) {
+    console.log(req.params.id);
+    db.Comments.remove({_id: req.params.id}, function (data) {
+      res.json(data);
+    });
+  });
+
 };
